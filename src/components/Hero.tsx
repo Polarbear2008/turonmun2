@@ -296,7 +296,7 @@ const Hero = () => {
           </motion.div>
 
           <motion.div
-            className="relative mt-0 mb-8 lg:mb-0 lg:mt-0 px-4 sm:px-0 order-1 lg:order-2"
+            className="relative mt-0 mb-8 lg:mb-0 lg:mt-0 px-4 sm:px-0 order-1 lg:order-2 hidden lg:block"
             variants={transitionVariants.scaleVariants}
             initial="initial"
             animate="animate"

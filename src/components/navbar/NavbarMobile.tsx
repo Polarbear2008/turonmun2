@@ -256,36 +256,35 @@ const NavbarMobile: React.FC<NavbarMobileProps> = ({
                   </Link>
                 </motion.div>
               ) : (
-                <>
-                  <motion.div
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
+                <motion.div
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  <Link
+                    to="/login"
+                    className="bg-white/10 hover:bg-white/20 text-white font-medium py-3 px-4 rounded-md transition-all duration-300 w-full flex justify-center items-center gap-2 border border-white/20"
+                    onClick={toggleMenu}
                   >
-                    <Link
-                      to="/login"
-                      className="bg-white/10 hover:bg-white/20 text-white font-medium py-3 px-4 rounded-md transition-all duration-300 w-full flex justify-center items-center gap-2 border border-white/20"
-                      onClick={toggleMenu}
-                    >
-                      <LogIn size={18} />
-                      <span>Login</span>
-                    </Link>
-                  </motion.div>
-
-                  <motion.div
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                  >
-                    <Link
-                      to="/register"
-                      className="bg-gold-400 hover:bg-gold-400/90 text-diplomatic-900 font-medium py-3 px-4 rounded-md transition-all duration-300 w-full flex justify-center items-center gap-2 shadow-gold"
-                      onClick={toggleMenu}
-                    >
-                      <Globe size={18} />
-                      <span>Apply Now</span>
-                    </Link>
-                  </motion.div>
-                </>
+                    <LogIn size={18} />
+                    <span>Login</span>
+                  </Link>
+                </motion.div>
               )}
+
+              {/* Apply Now - Always Visible */}
+              <motion.div
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                <Link
+                  to="/register"
+                  className="bg-gold-400 hover:bg-gold-400/90 text-diplomatic-900 font-medium py-3 px-4 rounded-md transition-all duration-300 w-full flex justify-center items-center gap-2 shadow-gold"
+                  onClick={toggleMenu}
+                >
+                  <Globe size={18} />
+                  <span>Apply Now</span>
+                </Link>
+              </motion.div>
             </div>
           </div>
         </motion.div>
