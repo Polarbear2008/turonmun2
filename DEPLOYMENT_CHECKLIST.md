@@ -13,7 +13,8 @@
 - [x] **Delegate Dashboard**: Overview, Committee, Application status working.
 - [x] **Role-Based Routing**: Smart "Dashboard" button routes correctly based on user role.
 - [x] **Performance**: Caching, memoization, and lazy loading active.
-- [x] **Messaging**: Removed as requested.
+- [x] **Messaging**: Removed as requested.admin@turonmun.com
+
 
 ## Vercel Deployment Steps
 1. **Push to GitHub**: Commit and push all changes to your repository.

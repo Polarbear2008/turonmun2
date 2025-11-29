@@ -149,9 +149,9 @@ const Login = () => {
                     <button
                       type="button"
                       onClick={() => setShowPassword(!showPassword)}
-                      className="absolute right-3 top-3.5 text-neutral-500 hover:text-neutral-700"
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-500 hover:text-neutral-700 transition-colors"
                     >
-                      {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                      {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                     </button>
                   </div>
                 </div>
@@ -159,7 +159,10 @@ const Login = () => {
                 {/* Remember Me & Forgot Password */}
                 <div className="flex items-center justify-between text-sm">
                   <label className="flex items-center gap-2 cursor-pointer">
-                    <input type="checkbox" className="rounded border-neutral-300" />
+                    <input
+                      type="checkbox"
+                      className="w-4 h-4 flex-shrink-0 rounded border-neutral-300 text-diplomatic-600 focus:ring-2 focus:ring-diplomatic-500 focus:ring-offset-0 cursor-pointer"
+                    />
                     <span className="text-neutral-600">Remember me</span>
                   </label>
                   <Link to="/reset-password" className="text-diplomatic-600 hover:text-diplomatic-700 font-medium">

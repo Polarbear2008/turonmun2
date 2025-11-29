@@ -1,8 +1,9 @@
 import React, { memo, useState, useCallback } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Globe, ChevronDown, ChevronRight } from 'lucide-react';
+import { Globe, ChevronDown, ChevronRight, LogIn, User } from 'lucide-react';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import { useAuthState } from '@/hooks/useAuthState';
 import { cn } from '@/lib/utils';
 
 interface NavbarMobileProps {
@@ -14,15 +15,15 @@ interface NavbarMobileProps {
 }
 
 // Memoized dropdown item component
-const MobileDropdownItem = memo(({ 
-  item, 
-  location, 
-  scrolled, 
+const MobileDropdownItem = memo(({
+  item,
+  location,
+  scrolled,
   onClick
-}: { 
-  item: any; 
-  location: any; 
-  scrolled: boolean; 
+}: {
+  item: any;
+  location: any;
+  scrolled: boolean;
   onClick: (path: string) => void;
 }) => {
   // Check if the current path matches this item's path
@@ -33,24 +34,24 @@ const MobileDropdownItem = memo(({
     }
     return location.pathname === item.path;
   })();
-  
+
   const handleClick = (e: React.MouseEvent) => {
     e.preventDefault(); // Prevent immediate navigation
     onClick(item.path);
   };
 
   return (
-    <a 
+    <a
       key={item.name}
-      href={item.path} 
+      href={item.path}
       className={cn(
         "flex items-center py-3 px-4 rounded-lg transition-all duration-300",
         isActive
-          ? scrolled 
-            ? 'bg-diplomatic-800 text-white font-medium' 
-            : 'bg-diplomatic-700/60 text-white font-medium' 
-          : scrolled 
-            ? 'text-white hover:bg-diplomatic-800' 
+          ? scrolled
+            ? 'bg-diplomatic-800 text-white font-medium'
+            : 'bg-diplomatic-700/60 text-white font-medium'
+          : scrolled
+            ? 'text-white hover:bg-diplomatic-800'
             : 'text-white/80 hover:bg-diplomatic-700/50'
       )}
       onClick={handleClick}
@@ -68,10 +69,10 @@ const MobileDropdownItem = memo(({
 
 MobileDropdownItem.displayName = 'MobileDropdownItem';
 
-const NavbarMobile: React.FC<NavbarMobileProps> = ({ 
-  scrolled, 
-  isMenuOpen, 
-  toggleMenu, 
+const NavbarMobile: React.FC<NavbarMobileProps> = ({
+  scrolled,
+  isMenuOpen,
+  toggleMenu,
   isHomePage,
   navLinks
 }) => {
@@ -79,11 +80,43 @@ const NavbarMobile: React.FC<NavbarMobileProps> = ({
   const navigate = useNavigate();
   const [openDropdowns, setOpenDropdowns] = useState<string[]>([]);
   const [isNavigating, setIsNavigating] = useState(false);
+  const { user } = useAuthState();
+  const [isChair, setIsChair] = useState(() => {
+    // Initialize from cache if available
+    const cached = localStorage.getItem('userRole');
+    return cached === 'chair' || cached === 'co-chair' || cached === 'superadmin';
+  });
+
+  // Check if user is a chair (with caching)
+  React.useEffect(() => {
+    const checkChairRole = async () => {
+      if (!user?.email) {
+        setIsChair(false);
+        localStorage.removeItem('userRole');
+        return;
+      }
+
+      // Check cache first
+      const cachedRole = localStorage.getItem('userRole');
+      const cacheTime = localStorage.getItem('userRoleTime');
+      const now = Date.now();
+
+      // Use cache if less than 5 minutes old
+      if (cachedRole && cacheTime && (now - parseInt(cacheTime)) < 300000) {
+        setIsChair(cachedRole === 'chair' || cachedRole === 'co-chair' || cachedRole === 'superadmin');
+        return;
+      }
+    };
+
+    checkChairRole();
+  }, [user]);
+
+  const dashboardPath = isChair ? '/chair-dashboard' : '/dashboard';
 
   const toggleDropdown = (name: string) => {
-    setOpenDropdowns(prev => 
-      prev.includes(name) 
-        ? prev.filter(item => item !== name) 
+    setOpenDropdowns(prev =>
+      prev.includes(name)
+        ? prev.filter(item => item !== name)
         : [...prev, name]
     );
   };
@@ -98,12 +131,12 @@ const NavbarMobile: React.FC<NavbarMobileProps> = ({
   // Handle delayed navigation with transition
   const handleNavigation = useCallback((path: string) => {
     if (isNavigating) return; // Prevent multiple clicks
-    
+
     setIsNavigating(true);
-    
+
     // Close the mobile menu
     toggleMenu();
-    
+
     // Add a small delay before navigation to allow for transition
     setTimeout(() => {
       navigate(path);
@@ -114,16 +147,16 @@ const NavbarMobile: React.FC<NavbarMobileProps> = ({
   return (
     <AnimatePresence>
       {isMenuOpen && (
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, height: 0 }}
           animate={{ opacity: 1, height: 'auto' }}
           exit={{ opacity: 0, height: 0 }}
           transition={{ duration: 0.2 }}
           className={cn(
             "md:hidden absolute top-16 left-0 right-0 overflow-hidden z-50",
-            scrolled 
-              ? 'bg-diplomatic-900 shadow-elegant border-t border-diplomatic-800' 
-              : isHomePage 
+            scrolled
+              ? 'bg-diplomatic-900 shadow-elegant border-t border-diplomatic-800'
+              : isHomePage
                 ? 'bg-diplomatic-800 border-t border-diplomatic-700'
                 : 'bg-diplomatic-700 border-t border-diplomatic-600'
           )}
@@ -133,33 +166,33 @@ const NavbarMobile: React.FC<NavbarMobileProps> = ({
               // Handle dropdown items
               if (link.hasDropdown && link.dropdownItems) {
                 const isOpen = openDropdowns.includes(link.name);
-                
+
                 return (
-                  <Collapsible 
+                  <Collapsible
                     key={link.name}
                     open={isOpen}
                     onOpenChange={() => toggleDropdown(link.name)}
                     className="w-full"
                   >
-                    <CollapsibleTrigger 
+                    <CollapsibleTrigger
                       className={cn(
                         "flex justify-between items-center w-full py-3 px-3 rounded-lg transition-colors",
                         location.pathname === link.path || location.pathname.startsWith(link.path)
-                          ? scrolled 
-                            ? 'bg-diplomatic-800 text-white font-medium' 
-                            : 'bg-diplomatic-700 text-white font-medium' 
-                          : scrolled 
-                            ? 'text-white hover:bg-diplomatic-800' 
+                          ? scrolled
+                            ? 'bg-diplomatic-800 text-white font-medium'
+                            : 'bg-diplomatic-700 text-white font-medium'
+                          : scrolled
+                            ? 'text-white hover:bg-diplomatic-800'
                             : 'text-white/90 hover:bg-diplomatic-700'
                       )}
                     >
                       <span>{link.name}</span>
-                      <ChevronDown 
-                        size={16} 
+                      <ChevronDown
+                        size={16}
                         className={cn(
                           "transition-transform duration-200",
                           isOpen ? 'transform rotate-180' : ''
-                        )} 
+                        )}
                       />
                     </CollapsibleTrigger>
                     <CollapsibleContent className="pl-2 space-y-1 mt-1">
@@ -182,21 +215,21 @@ const NavbarMobile: React.FC<NavbarMobileProps> = ({
                   </Collapsible>
                 );
               }
-              
+
               // Regular navigation items (non-dropdown)
               return (
                 <div key={link.name}>
-                  <Link 
-                    to={link.path} 
+                  <Link
+                    to={link.path}
                     className={cn(
                       "block py-3 px-3 rounded-lg transition-colors",
-                      location.pathname === link.path || 
-                      (link.path === '/resources' && location.pathname.startsWith('/resources'))
-                        ? scrolled 
-                          ? 'bg-diplomatic-800 text-white font-medium' 
-                          : 'bg-diplomatic-700 text-white font-medium' 
-                        : scrolled 
-                          ? 'text-white hover:bg-diplomatic-800' 
+                      location.pathname === link.path ||
+                        (link.path === '/resources' && location.pathname.startsWith('/resources'))
+                        ? scrolled
+                          ? 'bg-diplomatic-800 text-white font-medium'
+                          : 'bg-diplomatic-700 text-white font-medium'
+                        : scrolled
+                          ? 'text-white hover:bg-diplomatic-800'
                           : 'text-white/90 hover:bg-diplomatic-700'
                     )}
                     onClick={toggleMenu}
@@ -206,21 +239,54 @@ const NavbarMobile: React.FC<NavbarMobileProps> = ({
                 </div>
               );
             })}
-            
-            <motion.div
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              className="mt-4"
-            >
-              <Link 
-                to="/register" 
-                className="bg-gold-400 hover:bg-gold-400/90 text-diplomatic-900 font-medium py-3 px-4 rounded-md transition-all duration-300 w-full flex justify-center items-center gap-2 shadow-gold"
-                onClick={toggleMenu}
-              >
-                <Globe size={18} />
-                <span>Apply Now</span>
-              </Link>
-            </motion.div>
+
+            <div className="mt-6 space-y-3">
+              {user ? (
+                <motion.div
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  <Link
+                    to={dashboardPath}
+                    className="bg-diplomatic-600 hover:bg-diplomatic-500 text-white font-medium py-3 px-4 rounded-md transition-all duration-300 w-full flex justify-center items-center gap-2 shadow-md"
+                    onClick={toggleMenu}
+                  >
+                    <User size={18} />
+                    <span>Dashboard</span>
+                  </Link>
+                </motion.div>
+              ) : (
+                <>
+                  <motion.div
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    <Link
+                      to="/login"
+                      className="bg-white/10 hover:bg-white/20 text-white font-medium py-3 px-4 rounded-md transition-all duration-300 w-full flex justify-center items-center gap-2 border border-white/20"
+                      onClick={toggleMenu}
+                    >
+                      <LogIn size={18} />
+                      <span>Login</span>
+                    </Link>
+                  </motion.div>
+
+                  <motion.div
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    <Link
+                      to="/register"
+                      className="bg-gold-400 hover:bg-gold-400/90 text-diplomatic-900 font-medium py-3 px-4 rounded-md transition-all duration-300 w-full flex justify-center items-center gap-2 shadow-gold"
+                      onClick={toggleMenu}
+                    >
+                      <Globe size={18} />
+                      <span>Apply Now</span>
+                    </Link>
+                  </motion.div>
+                </>
+              )}
+            </div>
           </div>
         </motion.div>
       )}

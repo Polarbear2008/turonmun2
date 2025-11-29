@@ -10,9 +10,9 @@ const contactMethods = [
     icon: Mail,
     title: "Email Us",
     description: "Get in touch via email for general inquiries and questions.",
-    value: "turonmun25@gmail.com",
+    value: "admin@turonmun.com",
     action: "Email",
-    link: "mailto:turonmun25@gmail.com"
+    link: "mailto:admin@turonmun.com"
   },
   {
     icon: Phone,
@@ -34,7 +34,7 @@ const contactMethods = [
 
 const Contact = () => {
   const { formData, isSubmitting, handleChange, handleSubmit } = useContactForm();
-  
+
   // Scroll to top on page load
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -69,8 +69,8 @@ const Contact = () => {
                   <h3 className="text-xl font-display font-semibold mb-2">{method.title}</h3>
                   <p className="text-neutral-600 text-sm mb-3">{method.description}</p>
                   <p className="font-medium text-diplomatic-800 mb-4">{method.value}</p>
-                  <a 
-                    href={method.link} 
+                  <a
+                    href={method.link}
                     className="mt-auto text-sm font-medium text-diplomatic-700 hover:text-diplomatic-800 transition-colors"
                     target={method.icon === MapPin ? "_blank" : undefined}
                     rel={method.icon === MapPin ? "noopener noreferrer" : undefined}
@@ -93,13 +93,13 @@ const Contact = () => {
                   <h2 className="text-2xl font-display font-semibold mb-2">Send us a message</h2>
                   <p className="text-neutral-600">Fill out the form below and we'll get back to you as soon as possible.</p>
                 </div>
-                
+
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                     <div>
                       <label htmlFor="fullName" className="block text-sm font-medium text-neutral-700 mb-1">Full Name *</label>
-                      <input 
-                        type="text" 
+                      <input
+                        type="text"
                         id="fullName"
                         name="fullName"
                         value={formData.fullName}
@@ -111,8 +111,8 @@ const Contact = () => {
                     </div>
                     <div>
                       <label htmlFor="email" className="block text-sm font-medium text-neutral-700 mb-1">Email Address *</label>
-                      <input 
-                        type="email" 
+                      <input
+                        type="email"
                         id="email"
                         name="email"
                         value={formData.email}
@@ -123,11 +123,11 @@ const Contact = () => {
                       />
                     </div>
                   </div>
-                  
+
                   <div>
                     <label htmlFor="phone" className="block text-sm font-medium text-neutral-700 mb-1">Phone Number (optional)</label>
-                    <input 
-                      type="tel" 
+                    <input
+                      type="tel"
                       id="phone"
                       name="phone"
                       value={formData.phone}
@@ -136,11 +136,11 @@ const Contact = () => {
                       placeholder="Enter your phone number"
                     />
                   </div>
-                  
+
                   <div>
                     <label htmlFor="subject" className="block text-sm font-medium text-neutral-700 mb-1">Subject *</label>
-                    <input 
-                      type="text" 
+                    <input
+                      type="text"
                       id="subject"
                       name="subject"
                       value={formData.subject}
@@ -150,10 +150,10 @@ const Contact = () => {
                       required
                     />
                   </div>
-                  
+
                   <div>
                     <label htmlFor="message" className="block text-sm font-medium text-neutral-700 mb-1">Message *</label>
-                    <textarea 
+                    <textarea
                       id="message"
                       name="message"
                       value={formData.message}
@@ -164,32 +164,32 @@ const Contact = () => {
                       required
                     ></textarea>
                   </div>
-                  
+
                   <div>
-                    <button 
-                      type="submit" 
+                    <button
+                      type="submit"
                       disabled={isSubmitting}
                       className="btn-accent w-full py-3 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                     >
-                      <Send size={16} /> 
+                      <Send size={16} />
                       {isSubmitting ? 'Sending...' : 'Send Message'}
                     </button>
                   </div>
                 </form>
               </div>
-              
+
               {/* Map & Info */}
               <div className="order-1 lg:order-2">
                 <div className="bg-white rounded-2xl shadow-elegant border border-neutral-100 overflow-hidden">
                   {/* Fergana Presidential School image */}
                   <div className="aspect-video bg-neutral-100 overflow-hidden">
-                    <img 
-                      src="https://sasuvkcqdqmmjobmgida.supabase.co/storage/v1/object/public/logo/unnamed.jpg" 
-                      alt="Registan Private School" 
+                    <img
+                      src="https://sasuvkcqdqmmjobmgida.supabase.co/storage/v1/object/public/logo/unnamed.jpg"
+                      alt="Registan Private School"
                       className="w-full h-full object-cover"
                     />
                   </div>
-                  
+
                   <div className="p-6">
                     <h3 className="text-xl font-display font-semibold mb-2">Conference Venue</h3>
                     <p className="text-neutral-600 mb-4">
@@ -202,9 +202,9 @@ const Contact = () => {
                           Registan Private School<br />
                           Fergana, Uzbekistan
                         </p>
-                        <a 
-                          href="https://maps.app.goo.gl/HTEWvVHym8bzBNpw5" 
-                          target="_blank" 
+                        <a
+                          href="https://maps.app.goo.gl/HTEWvVHym8bzBNpw5"
+                          target="_blank"
                           rel="noopener noreferrer"
                           className="text-diplomatic-600 hover:text-diplomatic-700 text-sm font-medium mt-1 inline-block"
                         >
@@ -214,7 +214,7 @@ const Contact = () => {
                     </div>
                     <div className="flex items-center mb-2">
                       <Mail size={18} className="text-diplomatic-600 mr-2" />
-                      <p className="text-neutral-700">turonmun25@gmail.com</p>
+                      <p className="text-neutral-700">admin@turonmun.com</p>
                     </div>
                     <div className="flex items-center">
                       <Phone size={18} className="text-diplomatic-600 mr-2" />
@@ -236,7 +236,7 @@ const Contact = () => {
                 Find quick answers to common questions.
               </p>
             </div>
-            
+
             <div className="max-w-3xl mx-auto">
               <div className="space-y-6">
                 {[
@@ -265,12 +265,12 @@ const Contact = () => {
                   </div>
                 ))}
               </div>
-              
+
               <div className="text-center mt-10">
                 <p className="text-neutral-600 mb-4">
                   Still have questions? Don't hesitate to contact us directly.
                 </p>
-                <a href="mailto:turonmun25@gmail.com" className="btn-primary inline-flex items-center gap-2">
+                <a href="mailto:admin@turonmun.com" className="btn-primary inline-flex items-center gap-2">
                   <Mail size={16} /> Email Us
                 </a>
               </div>

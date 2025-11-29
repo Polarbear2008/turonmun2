@@ -215,9 +215,9 @@ const Signup = () => {
                       <button
                         type="button"
                         onClick={() => setShowPassword(!showPassword)}
-                        className="absolute right-3 top-3.5 text-neutral-500 hover:text-neutral-700"
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-500 hover:text-neutral-700 transition-colors"
                       >
-                        {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                        {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                       </button>
                     </div>
                   </div>
@@ -242,16 +242,20 @@ const Signup = () => {
                       <button
                         type="button"
                         onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                        className="absolute right-3 top-3.5 text-neutral-500 hover:text-neutral-700"
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-500 hover:text-neutral-700 transition-colors"
                       >
-                        {showConfirmPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                        {showConfirmPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                       </button>
                     </div>
                   </div>
 
                   {/* Terms Checkbox */}
                   <label className="flex items-start gap-2 cursor-pointer">
-                    <input type="checkbox" className="rounded border-neutral-300 mt-1" required />
+                    <input
+                      type="checkbox"
+                      className="w-4 h-4 flex-shrink-0 rounded border-neutral-300 text-diplomatic-600 focus:ring-2 focus:ring-diplomatic-500 focus:ring-offset-0 cursor-pointer mt-0.5"
+                      required
+                    />
                     <span className="text-sm text-neutral-600">
                       I agree to the{' '}
                       <a href="#" className="text-diplomatic-600 hover:text-diplomatic-700 font-medium">

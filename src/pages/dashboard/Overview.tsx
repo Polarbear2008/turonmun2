@@ -210,8 +210,8 @@ function Overview() {
           </div>
         </motion.div>
 
-        {/* Countdown Timer */}
-        <motion.div variants={itemVariants} className="glass-card p-6">
+        {/* Countdown Timer - Hidden on mobile */}
+        <motion.div variants={itemVariants} className="glass-card p-6 hidden md:block">
           <div className="flex items-center space-x-4 mb-6">
             <div className="w-12 h-12 bg-gradient-to-br from-gold-400 to-gold-500 rounded-full flex items-center justify-center">
               <Clock className="h-6 w-6 text-white" />

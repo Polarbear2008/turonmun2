@@ -9,11 +9,11 @@ export default function SplashScreen({ onComplete }: SplashScreenProps) {
     const [isVisible, setIsVisible] = useState(true);
 
     useEffect(() => {
-        // Show splash screen for 2.5 seconds
+        // Show splash screen for 2 seconds
         const timer = setTimeout(() => {
             setIsVisible(false);
             if (onComplete) onComplete();
-        }, 2500);
+        }, 2000);
 
         return () => clearTimeout(timer);
     }, [onComplete]);
